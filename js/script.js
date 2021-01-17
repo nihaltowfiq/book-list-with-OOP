@@ -12,9 +12,7 @@ class Book {
 
 // UI Class
 class UI {
-  constructor() {}
-
-  addToBookList(book) {
+  static addToBookList(book) {
     let list = document.querySelector("#bookList");
     let row = document.createElement("tr");
     row.innerHTML = `<td>${book.title}</td> 
@@ -25,13 +23,13 @@ class UI {
     list.appendChild(row);
   }
 
-  clearFields() {
+  static clearFields() {
     document.querySelector("#title").value = "";
     document.querySelector("#author").value = "";
     document.querySelector("#isbn").value = "";
   }
 
-  showAlert(message, className) {
+  static showAlert(message, className) {
     let div = document.createElement("div");
     div.className = `alert ${className}`;
     div.appendChild(document.createTextNode(message));
@@ -55,18 +53,16 @@ function addNewBook(e) {
   let author = document.querySelector("#author").value;
   let isbn = document.querySelector("#isbn").value;
 
-  let ui = new UI();
-
   if (title === "" || author === "" || isbn === "") {
-    ui.showAlert("Please fill all the fields!", "error");
+    UI.showAlert("Please fill all the fields!", "error");
   } else {
     let book = new Book(title, author, isbn);
 
-    ui.addToBookList(book);
+    UI.addToBookList(book);
 
-    ui.clearFields();
+    UI.clearFields();
 
-    ui.showAlert("Book added!", "success");
+    UI.showAlert("Book added!", "success");
   }
 
   e.preventDefault();
