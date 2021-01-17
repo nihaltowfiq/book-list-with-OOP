@@ -52,9 +52,37 @@ class UI {
   }
 }
 
+// Local Storage Class
+class Store {
+  static getBooks() {
+    let books;
+    if (localStorage.getItem("books") === null) {
+      books = [];
+    } else {
+      books = JSON.parse(localStorage.getItem("books"));
+    }
+    return books;
+  }
+
+  static addBook(book) {
+    let books = Store.getBooks();
+    books.push(book);
+
+    localStorage.setItem("books", JSON.stringify(books));
+  }
+
+  static displayBooks() {
+    let books = Store.getBooks();
+    books.forEach((book) => {
+      UI.addToBookList(book);
+    });
+  }
+}
+
 // add event listener
 form.addEventListener("submit", addNewBook);
 bookList.addEventListener("click", removeBook);
+document.addEventListener("DOMContentLoaded", Store.displayBooks());
 
 // define functions
 function addNewBook(e) {
@@ -68,9 +96,8 @@ function addNewBook(e) {
     let book = new Book(title, author, isbn);
 
     UI.addToBookList(book);
-
+    Store.addBook(book);
     UI.clearFields();
-
     UI.showAlert("Book added!", "success");
   }
   e.preventDefault();
