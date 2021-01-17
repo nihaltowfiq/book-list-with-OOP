@@ -1,5 +1,6 @@
 // Get the UI element
 let form = document.querySelector("#bookForm");
+let bookList = document.querySelector("#bookList");
 
 // Book Class
 class Book {
@@ -42,10 +43,18 @@ class UI {
       document.querySelector(".alert").remove();
     }, 3000);
   }
+
+  static deleteFromBookList(target) {
+    if (target.hasAttribute("href")) {
+      target.parentElement.parentElement.remove();
+      UI.showAlert("Book removed!", "success");
+    }
+  }
 }
 
 // add event listener
 form.addEventListener("submit", addNewBook);
+bookList.addEventListener("click", removeBook);
 
 // define functions
 function addNewBook(e) {
@@ -64,6 +73,10 @@ function addNewBook(e) {
 
     UI.showAlert("Book added!", "success");
   }
+  e.preventDefault();
+}
 
+function removeBook(e) {
+  UI.deleteFromBookList(e.target);
   e.preventDefault();
 }
